@@ -22,7 +22,7 @@ export default {
 		saltRounds: process.env.SALT_ROUNDS || 10,
 		cors: process.env.CORS?.split(',') || '*',
 		jwtSecret: process.env['JWT_SECRET'] || '123456',
-        jwtExpiredIn: process.env['JWT_EXPIRED_IN'] || '1d',
+		jwtExpiredIn: process.env['JWT_EXPIRED_IN'] || '1d',
 		debugLog: process.env.DEBUG_LOG === 'true',
 	},
 	database: {
@@ -40,10 +40,18 @@ export default {
 		isSync: process.env.DB_SYNC === 'false',
 	},
 	mail: {
-		host: process.env.MAIL_HOST || 'sandbox.smtp.mailtrap.io',
-		port: process.env.MAIL_PORT || '2525',
-		user: process.env.MAIL_USER || '740ba294e9d57f',
-		pass: process.env.MAIL_PASS || 'd5ff0cc1a9a948',
-		from: process.env.MAIL_FROM_NAME || 'Platform',
+		host: process.env.MAIL_HOST || 'smtp.gmail.com',
+		port: process.env.MAIL_PORT || '587',
+		user: process.env.MAIL_USER || 'phuhuyqhqb@gmail.com',
+		pass: process.env.MAIL_PASS || 'rxoi awpy iyfb kmar',
+		from: process.env.MAIL_FROM_NAME || 'phuhuyqhqb@gmail.com',
+	},
+	google: {
+		clientId: process.env.GOOGLE_CLIENT_ID || '',
+		clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+	},
+	facebook: {
+		clientId: process.env.FACEBOOK_CLIENT_ID || '',
+		clientSecret: process.env.FACEBOOK_CLIENT_SECRET || '',
 	},
 };

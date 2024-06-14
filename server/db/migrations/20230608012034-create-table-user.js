@@ -31,7 +31,7 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false,
 			},
-			isForgottenPassword: {
+			isForgotPassword: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false,
 			},

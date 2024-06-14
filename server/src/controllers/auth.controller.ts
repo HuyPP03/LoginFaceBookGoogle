@@ -1,11 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-	PERMISSION_ERROR,
-	RESPONSE_SUCCESS
-} from '../constants/constants';
+import { PERMISSION_ERROR, RESPONSE_SUCCESS } from '../constants/constants';
 import * as authService from '../services/auth.service';
 import { AppError } from '../utility/appError.util';
 import env from '../../env';
+import { Users } from '../models/users.model';
 
 export const login = async (
 	req: Request,
@@ -13,7 +11,10 @@ export const login = async (
 	next: NextFunction,
 ) => {
 	try {
-		const user = await authService.authenticate(req.body.email, req.body.password);
+		const user = await authService.authenticate(
+			req.body.email,
+			req.body.password,
+		);
 		if (user == null) {
 			throw new AppError(PERMISSION_ERROR, 'email or password mismatch');
 		}
@@ -46,13 +47,13 @@ export const verify = async (
 	next: NextFunction,
 ) => {
 	try {
-		const { token, password} = req.body;
+		const { token, password } = req.body;
 		const user = await authService.verify(token, password);
 		return res.status(RESPONSE_SUCCESS).json(user);
 	} catch (e) {
 		next(e);
 	}
-}
+};
 
 export const forgotPassword = async (
 	req: Request,
@@ -66,4 +67,31 @@ export const forgotPassword = async (
 	} catch (e) {
 		next(e);
 	}
-}
+};
+export const loginWithGoogle = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	try {
+		const user = req.user as Users;
+		const token = await authService.getToken(user, env.app.jwtExpiredIn);
+		res.redirect(`http://localhost:3000?token=${token}`);
+	} catch (e) {
+		next(e);
+	}
+};
+
+export const loginWithFacebook = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	try {
+		const user = req.user as Users;
+		const token = await authService.getToken(user, env.app.jwtExpiredIn);
+		res.redirect(`http://localhost:3000?token=${token}`);
+	} catch (e) {
+		next(e);
+	}
+};

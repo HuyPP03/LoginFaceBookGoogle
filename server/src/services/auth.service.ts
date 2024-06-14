@@ -55,8 +55,12 @@ export async function register(email: string): Promise<Users> {
 		}));
 	const verityToken = getToken(newUser, env.app.jwtExpiredIn);
 	const html = buildHtmlRegisterUser(verityToken);
-	console.log('html', verityToken, html);
-	await sendMail(newUser.email, 'email verification', undefined, html);
+	await sendMail(
+		newUser.email,
+		'Email verification from localhost:3000',
+		undefined,
+		html,
+	);
 
 	return newUser;
 }

@@ -4,9 +4,13 @@ import env from '../../env';
 const transport = createTransport({
 	host: env.mail.host,
 	port: env.mail.port,
+	secure: false,
 	auth: {
 		user: env.mail.user,
 		pass: env.mail.pass,
+	},
+	tls: {
+		rejectUnauthorized: false,
 	},
 } as TransportOptions);
 

@@ -5,12 +5,13 @@ import path from 'path';
 import env from '../../env';
 import { handleError } from '../exceptions/error.exeption';
 import { router as apiRoute } from '../routers';
+import passport from '../middleware/auth.middleware';
+import session from 'express-session';
 
 export default (app: express.Application) => {
-
 	app.use((req, res, next) => {
 		const origin = req.headers.origin || '';
-
+		console.log(origin);
 		if (env.app.cors.includes(origin)) {
 			res.setHeader('Access-Control-Allow-Origin', origin);
 		}
@@ -23,6 +24,7 @@ export default (app: express.Application) => {
 			`Content-Type, Origin, X-Requested-With, Accept, Authorization, access-token, X-Access-Token`,
 		);
 		res.header('Access-Control-Allow-Credentials', 'true');
+
 		res.header('preflightContinue', 'false');
 
 		if (req.method === 'OPTIONS') {
@@ -62,6 +64,16 @@ export default (app: express.Application) => {
 		express.urlencoded({ extended: true }),
 		express.static(path.join(process.cwd(), 'uploads'), staticOptions),
 	);
+	app.use(
+		session({
+			secret: 'your_secret_key',
+			resave: false,
+			saveUninitialized: true,
+		}),
+	);
+
+	app.use(passport.initialize());
+	app.use(passport.session());
 
 	app.use('/api', apiRoute);
 
